@@ -34,7 +34,7 @@ const ProductCard = ({
           <div className="group-hover:flex hidden justify-center items-center transition-all ">
             <button
               onClick={() =>
-                handler({ productId, photo, price, name, stock, quantity: 1 })
+                handler({ productId, photo, price, name, stock, quantity: 1,cartQuantity:1 })
               }
               className="  w-[60%] h-10 p-2 bg-red-400 rounded-md hover:bg-red-500  transition-all"
             >
