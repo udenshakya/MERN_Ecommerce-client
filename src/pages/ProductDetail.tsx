@@ -48,6 +48,7 @@ const ProductDetail = () => {
                 name,
                 stock,
                 quantity: 1,
+                cartQuantity:1
               })
             }
             className="  w-[60%] h-10 p-2 mx-auto bg-red-400 rounded-md hover:bg-red-500  transition-all"
