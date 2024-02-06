@@ -32,6 +32,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   stock: number;
+  cartQuantity:number
 };
 
 export type OrderItem = {

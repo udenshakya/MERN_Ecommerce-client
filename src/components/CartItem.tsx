@@ -13,7 +13,7 @@ type CartItemProps = {
 
 
 const CartItem = ({ cartItem,incrementHandler,decrementHandler,removeHandler }: CartItemProps) => {
-    const {photo,productId,name,price,quantity}=cartItem
+    const {photo,productId,name,price,cartQuantity}=cartItem
 
   return (
     <div>
@@ -34,7 +34,7 @@ const CartItem = ({ cartItem,incrementHandler,decrementHandler,removeHandler }: 
         
           
           <button onClick={()=>decrementHandler(cartItem)} className="p-2 bg-gray-200 rounded-md text-xs hover:bg-gray-300 duration-150"><FaMinus/> </button>
-          <span>{quantity} </span>
+          <span>{cartQuantity} </span>
           <button onClick={()=>incrementHandler(cartItem)} className="p-2 bg-gray-200 rounded-md text-xs hover:bg-gray-300 duration-150"><FaPlus />
  </button>
           <button onClick={()=>removeHandler(productId)} className="p-2 bg-gray-200 rounded-md text-xs hover:bg-gray-300 duration-150"><FaRegTrashAlt /> </button>

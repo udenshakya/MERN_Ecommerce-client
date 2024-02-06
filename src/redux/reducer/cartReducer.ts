@@ -10,6 +10,7 @@ const initialState: CartReducerInitialState = {
   shippingCharges: 0,
   discount: 0,
   total: 0,
+  cartTotalQuantity:0,
   shippingInfo: {
     address: "",
     city: "",
@@ -30,9 +31,10 @@ export const cartReducer = createSlice({
         (i) => i.productId === action.payload.productId
       );
 
-      if (index !== -1) state.cartItems[index] = action.payload;
+      if (index !== -1) state.cartItems[index].cartQuantity += 1;
       else {
-        state.cartItems.push(action.payload);
+        const tempProduct = { ...action.payload, cartQuantity: 1 };
+        state.cartItems.push(tempProduct);
         state.loading = false;
       }
     },
@@ -44,26 +46,58 @@ export const cartReducer = createSlice({
       state.loading = false;
     },
 
+    decreaseCart: (state, action) => {
+      const itemIndex = state.cartItems.findIndex(
+        (cartItem) => cartItem.productId === action.payload.productId
+      );
+
+      if (state.cartItems[itemIndex].cartQuantity > 1) {
+        state.cartItems[itemIndex].cartQuantity -= 1;
+      }
+    },
+
     calculatePrice: (state) => {
-      const subtotal = state.cartItems.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
+      // const subtotal = state.cartItems.reduce(
+      //   (total, item) => total + item.price * item.quantity,
+      //   0
+      // );
+
+      let {subtotal,quantity} = state.cartItems.reduce(
+        (cartTotal, cartItem) => {
+          const { price, cartQuantity } = cartItem;
+          const itemTotal = price * cartQuantity;
+
+          cartTotal.subtotal += itemTotal;
+          cartTotal.quantity += cartQuantity;
+
+          return cartTotal
+        },
+        { subtotal: 0, quantity: 0 }
       );
 
       state.subtotal = subtotal;
+      state.cartTotalQuantity = quantity
       state.shippingCharges = state.subtotal > 1000 ? 200 : 0;
       state.tax = Math.round(state.subtotal * 0.18);
       state.total =
         state.subtotal + state.tax + state.shippingCharges - state.discount;
     },
     discountApplied: (state, action: PayloadAction<number>) => {
-        state.discount = action.payload
-      },
-      saveShippingInfo:(state,action:PayloadAction<ShippingInfo>)=>{
-        state.shippingInfo = action.payload
-      },
-      resetCart:()=>initialState
+      state.discount = action.payload;
+    },
+    saveShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
+      state.shippingInfo = action.payload;
+    },
+    resetCart: () => initialState,
   },
 });
 
-export const { addToCart, removeCartItem,calculatePrice,discountApplied,saveShippingInfo,resetCart } = cartReducer.actions;
+export const {
+  addToCart,
+  removeCartItem,
+  decreaseCart,
+  calculatePrice,
+  discountApplied,
+  saveShippingInfo,
+  resetCart,
+} = cartReducer.actions;

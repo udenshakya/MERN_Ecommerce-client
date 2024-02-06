@@ -11,7 +11,7 @@ import { saveShippingInfo } from "../redux/reducer/cartReducer";
 const Shipping = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
 
-  const { cartItems, total } = useSelector(
+  const { cartItems, total,subtotal,shippingCharges,tax,discount } = useSelector(
     (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
   );
 
@@ -28,6 +28,9 @@ const Shipping = () => {
   useEffect(() => {
     if (cartItems.length <= 0) return navigate("/cart");
   }, [cartItems]);
+  {console.log(cartItems)}
+  {console.log(user)}
+  console.log(total)
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,15 +39,18 @@ const Shipping = () => {
 
     try {
       const { data } = await axios.post(
-        `${server}/api/v1/payment/create`,
+        `${server}/api/v1/stripe/create-checkout-session`,
         {
           amount: total,
-          name: user?.name,
-          address: address,
+          cartItems,
+          userId:user?._id,subtotal,shippingCharges,tax,discount
         },
         { headers: { "Content-Type": "application/json" } }
       );
-      navigate("/pay", { state: data.clientSecret });
+        if(data.url){
+          window.location.href = data.url
+        }
+      // navigate("/pay", { state: data.clientSecret });
     } catch (error) {
       console.log(error);
       toast.error("Something Went Wrong");

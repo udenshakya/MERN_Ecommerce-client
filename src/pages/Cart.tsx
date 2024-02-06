@@ -9,6 +9,7 @@ import { CartItem } from "../types/types";
 import {
   addToCart,
   calculatePrice,
+  decreaseCart,
   discountApplied,
   removeCartItem,
 } from "../redux/reducer/cartReducer";
@@ -26,14 +27,16 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const incrementHandler = (cartItem: CartItem) => {
-    if (cartItem.quantity >= cartItem.stock) return;
-    dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }));
+    if (cartItem.cartQuantity >= cartItem.stock) return;
+    // dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }));
+    dispatch(addToCart(cartItem))
   };
 
   const decrementHandler = (cartItem: CartItem) => {
-    if (cartItem.quantity <= 1) return;
+    if (cartItem.cartQuantity <= 1) return;
 
-    dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity - 1 }));
+    // dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity - 1 }));
+    dispatch(decreaseCart(cartItem))
   };
 
   const removeHandler = (productId: string) => {
@@ -42,7 +45,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(calculatePrice());
-  }, [cartItems]);
+  }, [cartItems,dispatch]);
 
   useEffect(() => {
     const {token:cancelToken,cancel} = axios.CancelToken.source()

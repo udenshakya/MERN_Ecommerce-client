@@ -2,7 +2,7 @@ import { FaSearch, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
-import { useState } from "react";
+import {  useState } from "react";
 import { User } from "../types/types";
 import toast from "react-hot-toast";
 import { signOut } from "firebase/auth";
@@ -25,6 +25,10 @@ const Header = ({ user }: PropsType) => {
     }
   };
 
+  // const { cartTotalQuantity } = useSelector((state:RootState) => state.cartReducer);
+
+
+
   return (
     <nav className="flex justify-between items-center p-2 container mx-auto">
       <div className="flex justify-center items-center">
@@ -45,16 +49,22 @@ const Header = ({ user }: PropsType) => {
           placeholder="Search"
           className="max-w-full border-2 p-2 rounded-md mr-3"
         />
-        <Link to={"/search"}> <FaSearch /></Link>
+        <Link to={"/search"}>
+          {" "}
+          <FaSearch />
+        </Link>
       </div>
       <div className="flex justify-center items-center gap-3">
         <Link
           to={"/cart"}
           onClick={() => setIsOpen(false)}
-          className="flex justify-center items-center gap-1 bg-gray-200 px-2 py-1 rounded-md hover:bg-gray-300 transition-all"
+          className="flex justify-center items-center gap-1 bg-gray-200 px-2 py-1 rounded-md hover:bg-gray-300 transition-all relative"
         >
           <FaShoppingCart />
-          <>Cart</>
+          <p>Cart</p>
+          {/* <div className="absolute -top-2 -right-2 bg-red-600 text-white p-1 rounded-full h-5 w-5 text-xs flex justify-center items-center">
+            {cartTotalQuantity}
+          </div> */}
         </Link>
         <div>
           {user?._id ? (

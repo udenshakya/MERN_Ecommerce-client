@@ -20,7 +20,8 @@ const Orders = lazy(() => import("./pages/Orders"));
 const OrderDetails = lazy(() => import("./pages/OrderDetails"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const CheckOut = lazy(() => import("./pages/CheckOut"));
+// const CheckOut = lazy(() => import("./pages/CheckOut"));
+const CheckOutSuccess = lazy(() => import("./pages/CheckOutSuccess"));
 
 // Importing Admin routes
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -88,7 +89,8 @@ const App = () => {
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/order/:id" element={<OrderDetails />} />
-              <Route path="/pay" element={<CheckOut />} />
+              {/* <Route path="/pay" element={<CheckOut />} /> */}
+              <Route path="/checkout-success" element={<CheckOutSuccess/>} />
             </Route>
         {/* </div> */}
 

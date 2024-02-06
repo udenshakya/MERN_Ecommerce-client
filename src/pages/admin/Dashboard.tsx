@@ -12,6 +12,7 @@ import { useStatsQuery } from "../../redux/api/dashboardAPI";
 import { CustomError } from "../../types/api-types";
 import toast from "react-hot-toast";
 import Loader from "../../components/Loader";
+import { getLastMonths } from "../../utils/features";
 
 const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.userReducer);
@@ -22,6 +23,8 @@ const Dashboard = () => {
   console.log(stats?.chart.revenue)
   console.log(stats?.chart.order)
   console.log(stats?.latestTransaction)
+
+  const {last6Months:months} = getLastMonths()
   
 
   if (isError) {
@@ -74,6 +77,7 @@ const Dashboard = () => {
                 <h1>REVENUE & TRANSACTION</h1>
                 {/* graph */}
                 <BarChart
+                labels={months}
                   data1={stats.chart.revenue}
                   data2={stats.chart.order}
                   title1="Revenue"
