@@ -8,7 +8,6 @@ import {
   useProductsDetailsQuery,
   useUpdateProductMutation,
 } from "../../../redux/api/productAPI";
-import { server } from "../../../redux/store";
 import { responseToast } from "../../../utils/features";
 import { FaTrash } from "react-icons/fa";
 
@@ -23,7 +22,7 @@ const ProductManagement = () => {
 
   const { data ,isError} = useProductsDetailsQuery(params.id!);
 
-  const { photo, category, name, stock, price } = data?.product || {
+  const { image, category, name, stock, price } = data?.product || {
     photo: "",
     category: "",
     name: "",
@@ -36,7 +35,7 @@ const ProductManagement = () => {
   const [stockUpdate, setStockUpdate] = useState<number>(stock);
   const [photoUpdate, setPhotoUpdate] = useState<string>("");
   const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
-  const [photoFile, setPhotoFile] = useState<File>();
+  // const [photoFile, setPhotoFile] = useState<File>();
 
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
@@ -51,9 +50,10 @@ const ProductManagement = () => {
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
           setPhotoUpdate(reader.result);
-          setPhotoFile(file);
+        }else{
+          setPhotoUpdate("")
         }
-      };
+      }
     }
   };
 
@@ -66,7 +66,7 @@ const ProductManagement = () => {
     if (priceUpdate) formData.set("price", priceUpdate.toString());
     if (stockUpdate !== undefined)
       formData.set("stock", stockUpdate.toString());
-    if (photoFile) formData.set("photo", photoFile);
+    if (photoUpdate) formData.set("image", photoUpdate);
     if (categoryUpdate) formData.set("category", categoryUpdate);
 
     const res = await updateProduct({
@@ -111,7 +111,7 @@ const ProductManagement = () => {
           <p className="text-sm">ID : {data?.product._id} </p>
           <div className="h-64 w-52 mx-auto mt-5">
             <img
-              src={`${server}/${photo}`}
+              src={image?.url}
               alt="product"
               className="w-full h-full object-cover rounded-lg "
             />

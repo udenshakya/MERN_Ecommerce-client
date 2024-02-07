@@ -13,9 +13,9 @@ const NewProduct = () => {
 
   const [name, setName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-  const [price, setPrice] = useState<number>();
-  const [stock, setStock] = useState<number>();
-  const [photo, setPhoto] = useState<File>();
+  const [price, setPrice] = useState<number>(0);
+  const [stock, setStock] = useState<number>(0);
+  // const [photo, setPhoto] = useState<File>();
   const [photoPrev, setPhotoPrev] = useState<string>("");
 
   const [newProduct] = useNewProductMutation();
@@ -31,7 +31,9 @@ const NewProduct = () => {
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
           setPhotoPrev(reader.result);
-          setPhoto(file);
+          // setPhoto(file);
+        }else{
+          setPhotoPrev("")
         }
       };
     }
@@ -40,15 +42,16 @@ const NewProduct = () => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!name || !price || !stock || !category || !photo) return;
+    if (!name || !price || !stock || !category || !photoPrev) return;
 
     const formData = new FormData();
 
     formData.set("name", name);
     formData.set("price", price.toString());
     formData.set("stock", stock.toString());
-    formData.set("photo", photo);
+    formData.set("image", photoPrev);
     formData.set("category", category);
+
 
     const res = await newProduct({ id: user?._id!, formData });
     console.log(res)

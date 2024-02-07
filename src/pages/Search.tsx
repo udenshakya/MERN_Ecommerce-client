@@ -74,7 +74,7 @@ const Search = () => {
         <input
           type="range"
           min={100}
-          max={100000}
+          max={1000000}
           value={maxPrice}
           onChange={(e) => setMaxPrice(Number(e.target.value))}
         />
@@ -112,7 +112,7 @@ const Search = () => {
               <ProductCard
                 key={i._id}
                 productId={i._id}
-                photo={i.photo}
+                image={i.image}
                 name={i.name}
                 price={i.price}
                 stock={i.stock}

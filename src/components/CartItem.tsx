@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { FaMinus, FaPlus, FaRegTrashAlt } from "react-icons/fa";
-import { server } from "../redux/store";
 import { CartItem } from "../types/types";
 
 
@@ -13,7 +12,7 @@ type CartItemProps = {
 
 
 const CartItem = ({ cartItem,incrementHandler,decrementHandler,removeHandler }: CartItemProps) => {
-    const {photo,productId,name,price,cartQuantity}=cartItem
+    const {image,productId,name,price,cartQuantity}=cartItem
 
   return (
     <div>
@@ -21,7 +20,7 @@ const CartItem = ({ cartItem,incrementHandler,decrementHandler,removeHandler }: 
         <div className="flex gap-2">
           <img
             className="h-20 w-20 rounded-md"
-            src={`${server}/${photo}`}
+            src={image?.url}
             
             alt="img"
           />

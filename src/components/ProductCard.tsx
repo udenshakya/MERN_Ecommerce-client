@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import { server } from "../redux/store";
-import { CartItem } from "../types/types";
+import { CartItem, Imagetype } from "../types/types";
 
 type ProductProps = {
   productId: string;
-  photo: string;
+  image: Imagetype;
   name: string;
   price: number;
   stock: number;
@@ -13,7 +12,7 @@ type ProductProps = {
 
 const ProductCard = ({
   productId,
-  photo,
+  image,
   name,
   price,
   stock,
@@ -24,7 +23,7 @@ const ProductCard = ({
         <div className="md:w-56 w-48 h-72 hover:bg-gray-500/20 duration-75 transition-all p-2 rounded-lg group ">
       <Link to={`/product/${productId}`}>
           <img
-            src={`${server}/${photo}`}
+            src={image?.url}
             alt="img"
             className="w-full h-[70%] rounded-md object-contain"
           />
@@ -34,7 +33,7 @@ const ProductCard = ({
           <div className="group-hover:flex hidden justify-center items-center transition-all ">
             <button
               onClick={() =>
-                handler({ productId, photo, price, name, stock, quantity: 1,cartQuantity:1 })
+                handler({ productId, image, price, name, stock, quantity: 1,cartQuantity:1 })
               }
               className="  w-[60%] h-10 p-2 bg-red-400 rounded-md hover:bg-red-500  transition-all"
             >

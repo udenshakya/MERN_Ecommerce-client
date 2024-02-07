@@ -8,12 +8,16 @@ export type User = {
   _id: string;
 };
 
+export type Imagetype={
+  url:string
+}
+
 export type Product = {
   name: string;
   price: number;
   stock: number;
   category: string;
-  photo: string;
+  image: Imagetype;
   _id: string;
 };
 
@@ -27,7 +31,7 @@ export type ShippingInfo = {
 
 export type CartItem = {
   productId: string;
-  photo: string;
+  image: Imagetype;
   name: string;
   price: number;
   quantity: number;
